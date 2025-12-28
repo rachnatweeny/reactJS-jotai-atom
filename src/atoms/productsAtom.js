@@ -18,10 +18,9 @@ const getStoredProducts = () => {
 export const productsAtom = atom(getStoredProducts())
 
 export const searchAtom = atom('')
-export const customSearchAtom = atom('')
 
 export const filteredProductsAtom = atom((get) => {
-  const q = get(customSearchAtom).trim().toLowerCase()
+  const q = get(searchAtom).trim().toLowerCase()
   if (!q) return get(productsAtom)
   return get(productsAtom).filter((p) => p.name.toLowerCase().includes(q) || (p.description || '').toLowerCase().includes(q))
 })

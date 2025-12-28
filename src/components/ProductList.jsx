@@ -1,12 +1,11 @@
 import React from 'react'
 import { useAtom } from 'jotai'
 import { useSetAtom } from 'jotai'
-import { filteredProductsAtom, searchAtom, customSearchAtom, deleteProductAtom } from '../atoms/productsAtom'
+import { filteredProductsAtom, searchAtom, deleteProductAtom } from '../atoms/productsAtom'
 
 export default function ProductList() {
   const [products] = useAtom(filteredProductsAtom)
   const [search, setSearch] = useAtom(searchAtom)
-  const [customSearch, setCustomSearch] = useAtom(customSearchAtom)
   const deleteProduct = useSetAtom(deleteProductAtom)
 
   return (
@@ -23,16 +22,6 @@ export default function ProductList() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search products..."
-                className="w-full px-3 py-2 border border-gray-200 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 cursor-pointer"
-              />
-            </div>
-            <div className="flex-1">
-              <label htmlFor="search-2" className="sr-only">Search products by custom filter</label>
-              <input
-                id="search-2"
-                value={customSearch}
-                onChange={(e) => setCustomSearch(e.target.value)}
-                placeholder="Filter products..."
                 className="w-full px-3 py-2 border border-gray-200 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 cursor-pointer"
               />
             </div>
