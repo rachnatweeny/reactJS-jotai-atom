@@ -12,21 +12,17 @@ export default function ProductList() {
     <section aria-labelledby="products-title">
       <h2 id="products-title" className="text-2xl font-semibold mb-6 text-gray-800">Products</h2>
       <form className="mb-6 bg-white p-4 rounded-lg shadow" aria-label="Search products">
-        <fieldset>
-          <legend className="sr-only">Search Filters</legend>
-          <div className="flex items-center gap-3">
-            <div className="flex-1">
-              <label htmlFor="search-1" className="sr-only">Search products by name or description</label>
-              <input
-                id="search-1"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search products..."
-                className="w-full px-3 py-2 border border-gray-200 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 cursor-pointer"
-              />
-            </div>
-          </div>
-        </fieldset>
+        <label htmlFor="search-products" className="block text-sm font-medium text-gray-700 mb-2">
+          Search Products
+        </label>
+        <input
+          id="search-products"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search by name or description..."
+          maxLength="50"
+          className="w-full px-3 py-2 border border-gray-200 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 cursor-pointer"
+        />
       </form>
 
       {products.length === 0 ? (
@@ -53,7 +49,9 @@ export default function ProductList() {
               <h3 className="text-lg font-bold text-gray-800 mb-2 line-clamp-2">{p.name}</h3>
               <p className="text-sm text-gray-600 mb-4 line-clamp-2">{p.description}</p>
               <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                <span className="text-2xl font-bold text-indigo-600" aria-label={`Price: ${p.price} dollars`}>${p.price}</span>
+                <span className="text-2xl font-bold text-indigo-600" aria-label={`Price: $${p.price.toFixed(2)}`}>
+                  ${p.price.toFixed(2)}
+                </span>
                 <button className="text-sm bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 cursor-pointer transition-all hover:shadow-lg transform hover:scale-105 font-medium" aria-label={`Buy ${p.name}`}>Buy</button>
               </div>
             </article>

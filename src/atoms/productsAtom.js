@@ -15,6 +15,14 @@ const getStoredProducts = () => {
   }
 }
 
+const saveProducts = (products) => {
+  try {
+    localStorage.setItem('products', JSON.stringify(products))
+  } catch (error) {
+    console.error('Failed to save products:', error)
+  }
+}
+
 export const productsAtom = atom(getStoredProducts())
 
 export const searchAtom = atom('')
@@ -29,12 +37,12 @@ export const addProductAtom = atom(null, (get, set, newProduct) => {
   const product = { id: Date.now(), ...newProduct }
   const updated = [...get(productsAtom), product]
   set(productsAtom, updated)
-  localStorage.setItem('products', JSON.stringify(updated))
+  saveProducts(updated)
 })
 
 export const deleteProductAtom = atom(null, (get, set, productId) => {
   const updated = get(productsAtom).filter((p) => p.id !== productId)
   set(productsAtom, updated)
-  localStorage.setItem('products', JSON.stringify(updated))
+  saveProducts(updated)
 })
 

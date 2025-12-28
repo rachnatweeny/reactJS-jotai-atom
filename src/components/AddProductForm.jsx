@@ -5,24 +5,38 @@ import { addProductAtom } from '../atoms/productsAtom'
 export default function AddProductForm() {
   const addProduct = useSetAtom(addProductAtom)
   const [form, setForm] = useState({ name: '', price: '', description: '' })
+  const [error, setError] = useState('')
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
+    setError('')
   }
 
   const submit = (e) => {
     e.preventDefault()
-    if (!form.name.trim()) return
+    if (!form.name.trim()) {
+      setError('Product name is required')
+      return
+    }
     const price = Number(form.price)
-    if (!form.price || price <= 0) return
+    if (!form.price || price <= 0) {
+      setError('Price must be greater than 0')
+      return
+    }
     addProduct({ name: form.name.trim(), price, description: form.description.trim() })
     setForm({ name: '', price: '', description: '' })
+    setError('')
   }
 
   return (
     <section aria-labelledby="add-product-title" className="mb-6 bg-white p-6 rounded-lg shadow">
       <h2 id="add-product-title" className="text-2xl font-semibold mb-4 text-gray-800">Add Product</h2>
+      {error && (
+        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg border border-red-300" role="alert">
+          {error}
+        </div>
+      )}
       <form onSubmit={submit} className="space-y-4">
         <fieldset className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="col-span-1 sm:col-span-2">
@@ -30,6 +44,7 @@ export default function AddProductForm() {
               Product Name
             </label>
             <input
+              maxLength="100"
               id="product-name"
               name="name"
               value={form.name}
