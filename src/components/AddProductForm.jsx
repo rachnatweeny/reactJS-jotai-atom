@@ -1,49 +1,85 @@
 import React, { useState } from 'react'
-import { useAtom } from 'jotai'
+import { useSetAtom } from 'jotai'
 import { addProductAtom } from '../atoms/productsAtom'
 
 export default function AddProductForm() {
-  const [, addProduct] = useAtom(addProductAtom)
-  const [name, setName] = useState('')
-  const [price, setPrice] = useState('')
-  const [description, setDescription] = useState('')
+  const addProduct = useSetAtom(addProductAtom)
+  const [form, setForm] = useState({ name: '', price: '', description: '' })
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setForm((prev) => ({ ...prev, [name]: value }))
+  }
 
   const submit = (e) => {
     e.preventDefault()
-    if (!name.trim()) return
-    addProduct({ name: name.trim(), price: Number(price) || 0, description: description.trim() })
-    setName('')
-    setPrice('')
-    setDescription('')
+    if (!form.name.trim()) return
+    const price = Number(form.price)
+    if (!form.price || price <= 0) return
+    addProduct({ name: form.name.trim(), price, description: form.description.trim() })
+    setForm({ name: '', price: '', description: '' })
   }
 
   return (
-    <form onSubmit={submit} className="mb-6 bg-white p-4 rounded shadow">
-      <h3 className="text-lg font-medium mb-3">Add Product</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Name"
-          className="col-span-1 sm:col-span-2 px-3 py-2 border border-gray-200 rounded"
-        />
-        <input
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          placeholder="Price"
-          type="number"
-          className="px-3 py-2 border border-gray-200 rounded"
-        />
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Description"
-          className="col-span-1 sm:col-span-3 px-3 py-2 border border-gray-200 rounded"
-        />
-      </div>
-      <div className="mt-3">
-        <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Add Product</button>
-      </div>
-    </form>
+    <section aria-labelledby="add-product-title" className="mb-6 bg-white p-6 rounded-lg shadow">
+      <h2 id="add-product-title" className="text-2xl font-semibold mb-4 text-gray-800">Add Product</h2>
+      <form onSubmit={submit} className="space-y-4">
+        <fieldset className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="col-span-1 sm:col-span-2">
+            <label htmlFor="product-name" className="block text-sm font-medium text-gray-700 mb-1">
+              Product Name
+            </label>
+            <input
+              id="product-name"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              placeholder="Enter product name"
+              required
+              aria-required="true"
+              className="w-full px-3 py-2 border border-gray-200 rounded cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500"
+            />
+          </div>
+          <div>
+            <label htmlFor="product-price" className="block text-sm font-medium text-gray-700 mb-1">
+              Price ($)
+            </label>
+            <input
+              id="product-price"
+              name="price"
+              value={form.price}
+              onChange={handleChange}
+              placeholder="0.00"
+              type="number"
+              step="0.01"
+              min="0"
+              required
+              aria-required="true"
+              className="w-full px-3 py-2 border border-gray-200 rounded cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500"
+            />
+          </div>
+          <div className="col-span-1 sm:col-span-3">
+            <label htmlFor="product-description" className="block text-sm font-medium text-gray-700 mb-1">
+              Description
+            </label>
+            <textarea
+              id="product-description"
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+              placeholder="Enter product description"
+              className="w-full px-3 py-2 border border-gray-200 rounded cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500"
+            />
+          </div>
+        </fieldset>
+        <button
+          type="submit"
+          className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 cursor-pointer transition-colors font-semibold"
+          aria-label="Add new product"
+        >
+          Add Product
+        </button>
+      </form>
+    </section>
   )
 }
