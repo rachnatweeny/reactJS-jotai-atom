@@ -50,9 +50,8 @@ export default function AddProductForm() {
               value={form.name}
               onChange={handleChange}
               placeholder="Enter product name"
-              required
               aria-required="true"
-              className="w-full px-3 py-2 border border-gray-200 rounded cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full px-3 py-2 border border-gray-200 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
           <div>
@@ -67,10 +66,8 @@ export default function AddProductForm() {
               placeholder="0.00"
               type="number"
               step="0.01"
-              min="0"
-              required
               aria-required="true"
-              className="w-full px-3 py-2 border border-gray-200 rounded cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full px-3 py-2 border border-gray-200 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
           <div className="col-span-1 sm:col-span-3">
@@ -83,7 +80,7 @@ export default function AddProductForm() {
               value={form.description}
               onChange={handleChange}
               placeholder="Enter product description"
-              className="w-full px-3 py-2 border border-gray-200 rounded cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full px-3 py-2 border border-gray-200 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
         </fieldset>
